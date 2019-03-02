@@ -2,12 +2,13 @@
 <head>
     <title>
     </title>
+    <link rel="stylesheet" href="./index.css" >
 </head>
 <body >
 <div>
     <img id=imageid src="image/img-05-preset-05.jpg">
 </div>
-<div id="newWindowAddFav">
+<div id="newWindowAddFav" class="button" onclick="add2Fav(n)">
     Click to add Favourite
 </div>
 <script>
@@ -21,5 +22,30 @@ var imgArr=["image/img-01-preset-01.jpg",
             "image/img-04-preset-4.jpg",
             "image/img-05-preset-05.jpg"]
 document.getElementById("imageid").src=imgArr[n];
+
+function add2Fav(){
+    window.opener.postMessage(n, "*")
+}
+
+// Called sometime after postMessage is called
+function receiveMessage(event)
+{
+  // Do we trust the sender of this message?
+//   if (event.origin !== "*")
+//     return;
+
+  // event.source is window.opener
+  // event.data is "hello there!"
+
+  // Assuming you've verified the origin of the received message (which
+  // you must do in any case), a convenient idiom for replying to a
+  // message is to call postMessage on event.source and provide
+  // event.origin as the targetOrigin.
+  event.source.postMessage("hi there yourself!  the secret response " +
+                           "is: rheeeeet!",
+                           event.origin);
+}
+
+window.addEventListener("message", receiveMessage, false);
 </script>
 </body>

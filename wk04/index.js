@@ -33,18 +33,42 @@ function handleMySlideClick(n){
   if(windowObjectReference == null || windowObjectReference.closed){
     windowObjectReference = window.open("./popup.html?pid="+n,
     "BestViewer", "resizable,scrollbars,status");
+    
+    windowObjectReference.postMessage("hello there!", "*");
   }else {
       windowObjectReference.focus();
   };
-  // windowObjectReference.postMessage("id: "+id, windowObjectReference);
-  windowObjectReference.imgSrc = slideIndex;
 }
 
-window.addEventListener("message", function(event) {
-  if (event.origin != 'http://javascript.info') {
-    // something from an unknown domain, let's ignore it
-    return;
-  }
+function addImgFav(n)
+{
+    let item=document.getElementById("img" + n);
+    let copyNode=item.cloneNode(true);
+    let favBan=document.getElementById("favImgBan");  
+    addFunctionToSingle(favBan,copyNode);
 
-  alert( "received: " + event.data );
-});
+}
+
+function addFunctionToSingle(baseNode,childNode)
+{
+  let checkContainNodes=baseNode.children;
+  
+  for (let i=0;i<checkContainNodes.length;i++)
+  {
+      if (childNode.getAttribute("id")==checkContainNodes[i].getAttribute("id"))
+      {
+        window.alert("this picture has been added");
+        return;
+      }
+  }
+  baseNode.appendChild(childNode);
+}
+function receiveMessage(event)
+{
+  // Do we trust the sender of this message?  (might be
+  // different from what we originally opened, for example).
+  if (event.data === 0)
+    return;
+  addImgFav(event.data);
+}
+window.addEventListener("message", receiveMessage, false);

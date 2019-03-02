@@ -8,15 +8,12 @@
 <div>
     <img src="image/img-01-preset-01.jpg">
 
-    <div id="newWindowAddFav">
+    <div id="newWindowAddFav" onclick="RunCallbackFunction">
         Click to add Favourite
     </div>
 </div>
-<!-- <script>
-    document.getElementById("newWindowAddFav").addEventListener("click",closeWindow);
-    function closeWindow()
-    {
-        window.close();
-    }
-</script> -->
+<script>
+ var RunCallbackFunction =  window.opener.myFunc("image/img-01-preset-01.jpg"); //Call callback function 
+    window.close();
+</script>
 </body>

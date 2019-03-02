@@ -5,6 +5,7 @@
 //img5 link: https://www.chinadiscovery.com/chengdu-tours/6-days-jiuzhaigou-chengdu-tour.html
 let slideIndex=1;
 let imageArray=document.getElementsByClassName("cImagSpan");
+var windowObjectReference = null; // global variable
 
 function addEventAddFav()
 {
@@ -71,7 +72,7 @@ function belowImgClick(id)
     belowChangeAbove(id);
 }
 
-//#region method
+//#region method 
 function belowOpacityChange(id)
 {
     let itemSpan=document.getElementById(id);
@@ -184,19 +185,35 @@ function getId()
     // let id = "cImag"+slideIndex;
     // return id;
 }
+
+    //random function you want to call
+function myFunc(msg) { console.log("I'm a function in the parent window："+msg); }
 function openNewWidow(id)
 {
     let newWindowHref;
-    if (id=="cImag1"){newWindowHref="cImag01.html";}
-    else if (id=="cImag2"){newWindowHref="cImag02.html";}
-    else if (id=="cImag3"){newWindowHref="cImag03.html";}
-    else if (id=="cImag4"){newWindowHref="cImag04.html";}
-    else if (id=="cImag5"){newWindowHref="cImag05.html";}
-    let newWindow=window.open(newWindowHref);
-
-    newWindow.close=function(){newWindow.opener.alert("abc");}
-   
-    //if (newWindow.closed){newWindow.opener.alert("abc");}
+    if (id=="cImag1"){newWindowHref="./cImag01.html";}
+    else if (id=="cImag2"){newWindowHref="./cImag02.html";}
+    else if (id=="cImag3"){newWindowHref="./cImag03.html";}
+    else if (id=="cImag4"){newWindowHref="./cImag04.html";}
+    else if (id=="cImag5"){newWindowHref="./cImag05.html";}
+    if(windowObjectReference == null || windowObjectReference.closed)
+    /* if the pointer to the window object in memory does not exist
+     or if such pointer exists but the window was closed */
+    {
+    windowObjectReference = window.open(newWindowHref,
+   "BestViewer", "resizable,scrollbars,status");
+    /* then create it. The new window will be created and
+       will be brought on top of any other window. */
+    }
+    else {
+        windowObjectReference.focus();
+        /* else the window reference must exist and the window
+        is not closed; therefore, we can bring it back on top of any other
+        window with the focus() method. There would be no need to re-create
+        the window or to reload the referenced resource. */
+    };
+    // windowObjectReference.postMessage("id: "+id, windowObjectReference);
+    windowObjectReference.onload = function() { windowObjectReference.RunCallbackFunction = myFunc; };
     
 }
 

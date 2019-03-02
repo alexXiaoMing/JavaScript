@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+    <title>
+    </title>
+</head>
+<body >
+<div>
+    <img id=imageid src="image/img-05-preset-05.jpg">
+</div>
+<div id="newWindowAddFav">
+    Click to add Favourite
+</div>
+<script>
+// var myVariable = window.opener.imgSrc;
+var query = location.search.substring(1);
+var n = query.split("=")[1];
+var imgArr=["image/img-01-preset-01.jpg",
+            "image/img-01-preset-01.jpg",
+            "image/img-02-preset-2.jpg", 
+            "image/img-03-preset-1.jpg",
+            "image/img-04-preset-4.jpg",
+            "image/img-05-preset-05.jpg"]
+document.getElementById("imageid").src=imgArr[n];
+</script>
+</body>
